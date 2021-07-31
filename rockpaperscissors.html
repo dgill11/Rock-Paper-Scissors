@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width = device-width, initial-scale = 1.0">
+    <title>Rock Paper Scissors</title>
+</head>
+<body>
+    <div id="container">
+        <h1>Rock Paper, Or Scissors</h1>
+        <div id="butones" class="buttons">
+            <button value="rock">Rock</button>
+            <button value="paper">Paper</button>
+            <button value="scissors">Scissors</button>
+        </div>
+        <p id="computer1"></p>
+        <p id="player1"></p>
+        <p id="rounds1"></p>
+        <p id="roundover"></p>
+        <p id="console1"></p>
+        <p id="player1points"></p>
+        <p id = "computerpoints"></p>
+        <script>
+            let rounds = 0;
+            let computerpoints = 0;
+            let playerpoints = 0;
+            const options = ["rock", "paper", "scissors"];
+
+            // ELEMENTS
+            const computerSelection = document.getElementById("computer1");
+
+            let btns = document.querySelectorAll('button');
+            btns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    round(btn.value);
+                })
+            })
+
+            /**
+             * A function that generates a random option
+             * 
+             * @return {string}
+             */
+            function computerGuess() {
+                const guess = options[Math.floor(Math.random() * options.length)];
+                computerSelection.innerText = `Computer guess: ${guess}`;
+                return guess;
+            }
+
+            /**
+             * A function that determines the winner of this round
+             * 
+             */
+             
+            function determineWinner(user, computer) {
+                const ties = ["scissorsscissors", "rockrock", "paperpaper"];
+                const userWins = ["scissorspaper", "paperrock", "rockscissors"];
+                const userLosses = ["paperscissors", "rockpaper", "scissorsrock"];
+
+                const testString = user + computer;
+
+                if (ties.includes(testString)) {
+                    console1.innerText = "You have tied, you both have been awarded with one point";
+                    return console1.innerText;
+                }
+                else if (userWins.includes(testString)){
+                    console1.innerText = "You have won, player hs got a point";
+                    return console1.innerText;
+                }
+                else if (userLosses.includes(testString)){
+                    console1.innerText = "You have lost , computer has got a point";
+                    return console1.innerText;
+                } 
+            }
+
+            function round(playerinput) {
+                const compselection = computerGuess();
+
+                document.getElementById("player1").innerText = `Player guess: ${playerinput}`;
+                document.getElementById("computerpoints").innerText = `Computer Points: ${computerpoints}`
+                document.getElementById("player1points").innerText = `Player Points: ${playerpoints}`
+
+                // Determine winner
+                const result = determineWinner(playerinput, compselection);
+                console.log(result);
+
+                // Add points if player won or tied
+                playerpoints += result.includes("tied") || result.includes("win") ? 1 : 0;
+                computerpoints += result.includes("tied") || result.includes("lost") ? 1 : 0;
+            }
+            </script>
+    </body>
